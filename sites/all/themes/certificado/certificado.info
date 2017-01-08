@@ -1,0 +1,18 @@
+name = Certificado
+description = Ruidoculto Theme 
+version = VERSION
+core = 7.x
+
+stylesheets[all][] = /css/resetHtml5.css
+stylesheets[all][] = /dist/css/bootstrap.min.css
+stylesheets[all][] = /css/estilo.css
+
+scripts[] = /js/main.js
+scripts[] = /dist/js/bootstrap.min.js
+
+regions[header] = Header
+regions[slide] = Slide
+regions[menu] = Menu
+regions[content] = Content
+regions[footer] = Footer
+

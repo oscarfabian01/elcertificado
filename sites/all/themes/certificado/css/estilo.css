@@ -1,0 +1,183 @@
+@font-face {
+    font-family: 'merriweather-bold';
+    src: url('fuentes/merriweather-bold-webfont.woff2') format('woff2'),
+        url('fuentes/merriweather-bold-webfont.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'merriweather';
+    src: url('fuentes/merriweather-regular-webfont.woff2') format('woff2'),
+        url('fuentes/merriweather-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'maven_promedium';
+    src: url('fuentes/mavenpro-medium-webfont.woff2') format('woff2'),
+        url('fuentes/mavenpro-medium-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'maven_proregular';
+    src: url('fuentes/mavenpro-regular-webfont.woff2') format('woff2'),
+        url('fuentes/mavenpro-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'maven_problack';
+    src: url('fuentes/mavenpro-black-webfont.woff2') format('woff2'),
+        url('fuentes/mavenpro-black-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'maven_probold';
+    src: url('fuentes/mavenpro-bold-webfont.woff2') format('woff2'),
+        url('fuentes/mavenpro-bold-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@media(max-width:767px){
+    .imagen-logo{
+        width: 90%;
+    }
+    .views-field-field-slogan-sitio {
+        font-size: 1em;
+    }
+    .menuPrincipal{
+        font-size: 1.08em;
+    }
+}
+
+@media(min-width:768px){
+    .imagen-logo{
+        width: 50%;
+    }
+    .views-field-field-slogan-sitio {
+        font-size: 1.8em;
+    }
+    .menuPrincipal{
+        font-size: 1.8em;
+    }
+}
+
+
+@media(min-width:992px){
+
+}
+
+@media(min-width:1200px){
+
+
+}
+
+.imagen-logo{
+    margin: 3em auto 2em;
+}
+
+.views-field-field-slogan-sitio{
+    background: #4b4b4b  none repeat scroll 0 0;
+    color: #ffffff;
+    font-family: 'maven_promedium';
+    text-align: center;
+}
+
+.menuPrincipal{
+    background: #4b4b4b  none repeat scroll 0 0;
+    font-family: 'maven_promedium';
+    text-align: center;
+}
+
+.menuPrincipal ul li{
+    list-style: none;
+    display: inline-block;
+}
+
+.menuPrincipal ul li a{
+    color: #ffffff;
+}
+
+.menuPrincipal ul.menu{
+    text-align: center;
+}
+
+#block-system-powered-by{
+    display: none;
+}
+
+.contLinkHome{
+    color: #000000;
+    font-family: "maven_proregular";
+    margin-top: 0;
+    padding: 4%;
+    text-align: center;
+}
+
+.contLinkHome .field-name-field-titulo-validar-certificado,.contLinkHome .field-name-field-titulo-validar-autorizacio,
+.contLinkHome .field-name-field-titulo-publicar{
+    font-family: "maven_promedium" !important;
+    font-size: 1.6em;
+}
+
+.contLinkHome a{
+    color: #000000;
+}
+
+.contLinkHome img{
+    margin: 0 auto;
+}
+
+.slider {
+    background: #ffffff none repeat scroll 0 0;
+    height: 47vh;
+}
+
+.footerConten{
+    background: #4b4b4b;
+    color: #FFFFFF;
+    font-family: "maven_proregular";
+    text-align: center;
+}
+
+.contTiQuiSomo{
+    color: #99ff00;
+    font-family: "maven_promedium";
+    font-size: 3em;
+    margin-top: 1.3em;
+    text-align: center;
+}
+
+.contImaQuienSomo img{
+    margin: 0 auto;
+    width: 90%;
+}
+
+.contTexQuieSomos{
+    font-family: "maven_proregular";
+    font-size: 1.2em;
+    margin-top: 2.5em;
+    text-align: justify;
+}
+
+.textQuienSomoFin{
+    margin-bottom: 5%;
+}
+
+.view-vista-clientes .col-lg-4{
+    margin-bottom: 4%;
+}
+
+.view-vista-clientes {
+    margin-top: 4%;
+}
