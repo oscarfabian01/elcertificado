@@ -182,3 +182,8 @@
 .view-vista-clientes {
     margin-top: 4%;
 }
+
+.view-autorizaciones tr.even, tr.odd{
+    background-color: #fff;
+    font-size: 12px;
+}

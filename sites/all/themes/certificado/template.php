@@ -11,3 +11,7 @@ function ruidoculto_preprocess_html(&$vars) {
 
     drupal_add_html_head($viewport, 'viewport');
 }
+
+function certificado_preprocess_views_view_table(&$vars) {
+  $vars['classes_array'][] = 'table table-striped';
+}
