@@ -22,7 +22,7 @@ all sites. Alternatively, the sites/your_site_name/themes directory pattern
 may be used to restrict themes to a specific site instance.
 
 MORE INFORMATION
------------------
+---------------
 
 Refer to the "Appearance" section of the README.txt in the Drupal root directory
 for further information on customizing the appearance of Drupal with custom
