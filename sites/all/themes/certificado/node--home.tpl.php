@@ -26,7 +26,7 @@
                 </div>
             </div>
         </a>
-        <a href="">
+        <a href="autorizaciones">
             <div class="col-lg-4 contLinkHome">
                 <div>
                     <?php print render($content['field_titulo_validar_autorizacio']); ?>
