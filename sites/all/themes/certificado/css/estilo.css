@@ -96,6 +96,7 @@
 .menuPrincipal{
     background: #4b4b4b  none repeat scroll 0 0;
     font-family: 'maven_promedium';
+    margin-top: 1em;
     text-align: center;
 }
 
@@ -215,3 +216,64 @@
 #alert-empty-autorizaciones{
     margin-top: 1.5em;
 }
+
+.carousel-inner > .item > img,
+.carousel-inner > .item > a > img {
+    width: 100%;
+    margin: auto;
+}
+.containerSlide{
+    /*    width: 100%;*/
+}
+.carousel-control.right,.carousel-control.left{
+    background-image: none !important;
+}
+
+.node-type-contacto input{
+    width: 22em;
+    height: 2.5em;
+    border-radius: 0.5em;
+    border: solid 2px #888888;
+}
+
+.node-type-contacto label{
+    color: #888888;
+    width: 5em;
+    margin: 0;
+}
+
+.node-type-contacto select{
+    width: 22em;
+    height: 2.5em;
+    border-radius: 0.5em;
+    border: solid 2px #888888;
+}
+
+.node-type-contacto textarea{
+    width: 22em;
+    height: 5em;
+    border-radius: 0.5em;
+    border: solid 2px #888888;
+    resize: none;
+}
+
+.node-type-contacto .button-primary{
+    background: #888888;
+    color: #FFFFFF;
+    width: 7em;
+    font-size: 1.2em;
+    padding: 0;
+    height: 2em;
+}
+
+.contGeneralCont{
+    padding: 2em 0;
+}
+
+/*estilo temporal para muestra al cliente*/
+.page-autorizaciones .contGeneralCont{
+    padding: 2em 0;
+    text-align: center;
+}
+
+/* fin estilo temporal para muestra al cliente*/
