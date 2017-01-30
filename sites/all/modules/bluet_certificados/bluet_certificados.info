@@ -1,0 +1,4 @@
+name = Certificados
+description = Modulo que complementa la funcionalidad de certificados de la pagina.
+package =  Custom
+core = 7.x

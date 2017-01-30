@@ -1,0 +1,20 @@
+<?php
+
+/*
+ * @File
+ * Contiene el instalador del módulo certificados
+ */
+
+/*
+ * Implements hook_install().
+ */
+function bluet_certificados_install(){
+  variable_set('certificados_formato','bluet_certificados_estandar');
+}
+
+/*
+ *Implements hook_uninstall().
+ */
+function bluet_certificados_uninstall(){
+  variable_del('bluet_certificados_formato');
+}

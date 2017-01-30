@@ -1,0 +1,223 @@
+<?php 
+
+/*
+ * @File
+ * Provee la funcionalidad necesaria para la generación de certificados
+ */
+
+/*
+ * Implement hook_menu().
+ */
+function bluet_certificados_menu(){
+  $items['certificado/pdf/%'] = array(
+    'title' => 'Certificado PDF',
+    'page callback' => 'bluet_certificados_genera_certificado',
+    'access callback' => TRUE,
+    'page arguments' => array(1,2),
+    'type' => MENU_CALLBACK,
+  );
+  $items['certificado/html/%'] = array(
+    'title' => 'Certificado HTML',
+    'page callback' => 'bluet_certificados_genera_certificado',
+    'access callback' => TRUE,
+    'page arguments' => array(1,2)
+  );
+  return $items;
+};
+
+/*
+ *Implement hook_init()
+ */
+function bluet_certificados_init(){
+  drupal_add_css(drupal_get_path('module', 'pdf_using_mpdf') . '/certificados-plantillas.css');
+}
+
+/*
+ * Implement hook_theme().
+ */
+function bluet_certificados_theme(){
+  return array(
+    'bluet_certificados_genera_certificado' => array(
+      'template' => variable_get('certificados_formato'),
+    )
+  );
+}
+
+/*
+ * Genera el PDF del certificado
+ *
+ * Obtiene el ID del nodo del certificado, busca la informacion relacionada y genera el PDF.
+ *
+ * @param $formato
+ *   Indica el formato de salida del certificado.
+ * @param $certificado
+ *   Un entero que indica el ID del certificado.
+ * @return
+ *   Retorna las variables con la información del certificado y se las pasa a la plantilla encargada de 
+ *   renderizar
+ */
+function bluet_certificados_genera_certificado($formato,$certificado){
+  //Carga la información del certificado. 
+  $certificado_node = node_load($certificado);
+  $certificado_obj = entity_metadata_wrapper('node', $certificado_node);
+  
+  $certificado_num_documento = $certificado_obj->field_certificado_num_documento->value();
+  $certificado_nombre = $certificado_obj->field_certificado_nombre->value();
+  $certificado_horas = $certificado_obj->field_certificado_horas_intensid->value();
+  $certificado_nombre_curso = $certificado_obj->field_certificado_nombre_curso->value();
+  $certificado_plantilla = $certificado_obj->field_certificado_plantilla->value();
+  $certificado_tipo_documento_cor = $certificado_obj->field_certificado_tipo_documento->value();
+  $certificado_codigo_cliente = $certificado_obj->field_certificado_codigo_cliente->value();
+  $certificado_entrenador_ident = $certificado_obj->field_certificado_ide_entrenador->value();
+  //Fecha con formato unix
+  $certificado_fecha_unix = $certificado_obj->field_certificado_fecha->value();
+  //Fecha formato d/m/Y
+  $certificado_fecha_completa = date('d/m/Y', $certificado_fecha_unix);
+  //Fecha solo dia
+  $certificado_fecha_dia = date('d', $certificado_fecha_unix);
+  //Fecha solo mes
+  $certificado_fecha_mes = date('m', $certificado_fecha_unix);
+  //Fecha solo año
+  $certificado_fecha_ano = date('Y', $certificado_fecha_unix);
+  //Plantilla del certificado
+  $certificado_plantilla = $certificado_obj->field_certificado_plantilla->value();
+
+  //Trae todos los campos tipo lista del sitio y los guarda en un array
+  $listas_sitio = field_info_fields();
+  //Se obtine solo los valores del campo que necesitamos
+  $lista_tipo_documento = list_allowed_values($listas_sitio["field_certificado_tipo_documento"]);
+  //Se busca el documento en especifico con la llave deseada.
+  $certificado_tipo_documento_largo = $lista_tipo_documento[$certificado_tipo_documento_cor];
+
+  //Se carga el cliente relacionado
+  $cliente_node = node_load(buscar_nodo($certificado_codigo_cliente));
+  $cliente_obj = entity_metadata_wrapper('node', $cliente_node);
+  $cliente_uri_logo = $cliente_obj->field_clientes_logo->value()['uri'];
+  $cliente_url_logo = file_create_url($cliente_uri_logo);
+
+  //Se carga la información del entrenador asociado al certificado.
+  $entrenador_node = node_load(buscar_nodo($certificado_entrenador_ident));
+  $entrenador_obj = entity_metadata_wrapper('node', $entrenador_node);
+  $entrenador_identificacion = $entrenador_obj->title->value();
+  $entrenador_nombre = $entrenador_obj->field_entrenadores_nombres->value();
+  $entrenador_tipo_documento = $entrenador_obj->field_entrenadores_tipo_document->value();
+  $entrenador_ciudad_documento = $entrenador_obj->field_entrenadores_ciudad_docume->value();
+  $entrenador_profesion = $entrenador_obj->field_entrenadores_profesion->value();
+  $entrenador_licencia = $entrenador_obj->field_entrenadores_licencia->value();
+  $entrenador_autorizacion = $entrenador_obj->field_entrenadores_autorizacion->value();
+  $entrenador_resolucion = $entrenador_obj->field_entrenadores_resolucion->value();
+  $entrenador_uri_firma = $entrenador_obj->field_entrenadores_firma->value()['uri'];
+  $entrenador_url_firma = file_create_url($entrenador_uri_firma);
+  
+  //Se crea un array de placeholders para mensajes
+  $placeholders = array(
+    '@certificado_num_documento' => $certificado_num_documento,
+    '@certificado_nombre' => $certificado_nombre,
+    '@certificado_fecha_completa' => $certificado_fecha_completa,
+    '@certificado_fecha_dia' => $certificado_fecha_dia,
+    '@certificado_fecha_mes' => $certificado_fecha_mes,
+    '@certificado_fecha_ano' => $certificado_fecha_ano,
+    '@certificado_horas' => $certificado_horas,
+    '@certificado_nombre_curso' => $certificado_nombre_curso,
+    '@certificado_tipo_documento_cor' => $certificado_tipo_documento_cor,
+    '@certificado_tipo_documento_largo' => $certificado_tipo_documento_largo,
+    '@certificado_url_logo_cliente' => $cliente_url_logo,
+    '@certificado_entrenador_identificacion' => $entrenador_identificacion,
+    '@certificado_entrenador_nombre' => $entrenador_nombre,
+    '@certificado_entrenador_tipo_documento' => $entrenador_tipo_documento,
+    '@certificado_entrenador_ciudad_documento' => $entrenador_ciudad_documento,
+    '@certificado_entrenador_profesion' => $entrenador_profesion,
+    '@certificado_entrenador_licencia'  => $entrenador_licencia,
+    '@certificado_entrenador_autorizacion' => $entrenador_autorizacion,
+    '@certificado_entrenador_resolucion' => $entrenador_resolucion,
+    '@certificado_entrenador_url_firma' => $entrenador_url_firma,
+  );
+
+  //Carga la información de la plantilla
+  $plantilla_node = node_load($certificado_plantilla);
+  $plantilla_obj = entity_metadata_wrapper('node', $plantilla_node);
+  //var_dump($plantilla_obj->field_plantillas_contenido->value());
+  //exit;
+  //Se evalua que plantilla(template) se debe utilizar para cargar el certificado.
+  variable_set('certificados_formato', 'bluet_certificados-' . $plantilla_obj->title->value());
+
+  //
+  $array_plantilla = preg_split('/<br[^>]*>/i',$plantilla_obj->field_plantillas_contenido->value()['safe_value']);
+  //var_dump($plantilla_obj->field_plantillas_contenido->value()['safe_value']);
+  //exit;
+  
+  //Se setean las variables que seran enviadas al template
+  $variables = array(
+    'linea1' => format_string($array_plantilla[0], $placeholders),
+    'linea2' => format_string($array_plantilla[1], $placeholders),
+    'linea3' => format_string($array_plantilla[2], $placeholders),
+    'linea4' => format_string($array_plantilla[3], $placeholders),
+    'linea5' => format_string($array_plantilla[4], $placeholders),
+    'linea6' => format_string($array_plantilla[5], $placeholders),
+    'linea7' => format_string($array_plantilla[6], $placeholders),
+    'linea8' => format_string($array_plantilla[7], $placeholders),
+    'linea9' => format_string($array_plantilla[8], $placeholders),
+    'linea10' => format_string($array_plantilla[9], $placeholders),
+    'linea11' => format_string($array_plantilla[10], $placeholders),
+    'linea12' => format_string($array_plantilla[11], $placeholders),
+    'linea13' => format_string($array_plantilla[12], $placeholders),
+    'linea14' => format_string($array_plantilla[13], $placeholders),
+    'linea15' => format_string($array_plantilla[14], $placeholders),
+    'linea16' => format_string($array_plantilla[15], $placeholders),
+    'certificado_url_logo_cliente' => $cliente_url_logo,
+    'certificado_entrenador_url_firma' => $entrenador_url_firma   
+  );
+  
+  //Se evalua si se debe imprimir en PDF o HTML según lo recibido por parametro
+  if ($formato == 'pdf'){
+    return pdf_using_mpdf_api(theme('bluet_certificados_genera_certificado', $variables));
+  }else{
+    return theme('bluet_certificados_genera_certificado', $variables);
+  }
+}
+
+/*
+ * Función auxiliar el nid de un nodo por medio del titulo
+ *
+ * Función auxiliar que busca un nodo por medio del titulo y devuelve el nid
+ * @param $titulo
+ *   Titulo del nodo
+ * @return
+ *   Retorna el nid del nodo
+ */
+function buscar_nodo($titulo){
+  $result = db_query("SELECT node.nid 
+                        FROM node
+                       WHERE node.title = :titulo", array(':titulo' => $titulo));
+  $record = $result -> fetchObject();   
+  return $record->nid;
+}
+
+
+/*
+ * Implements hook form_alter()
+ */
+function bluet_certificados_form_alter(&$form, $form_state, $form_id){
+  //drupal_set_message("Form Id: $form_id");
+  if ($form_id == 'certificados_node_form') {  
+    //Se busca los nodes tipo plantilla
+    $dropdown_array = array();
+    $results = db_query("SELECT node.nid, node.title 
+                           FROM node 
+                          WHERE node.type = :type", array(':type' => 'plantillas'));
+    $nodes = db_select('node', 'n')
+             ->fields('n', array('nid','title'))
+             ->condition('type', 'plantillas')
+             ->execute();
+
+    $dropdown_array[''] = ' - Select a value - ';
+    foreach ($nodes as $node) {
+      $dropdown_array[$node->nid] = $node->title;
+    };   
+
+    $form['field_certificado_plantilla']['und']['#options'] = $dropdown_array;
+    if (isset($form_state['build_info']["args"]['0'] -> field_certificado_plantilla)){
+      $form['field_certificado_plantilla']['und']['#default_value'] =  $form_state['build_info']["args"]['0'] -> field_certificado_plantilla['und'][0]['value'];
+    }
+  }
+}
