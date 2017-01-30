@@ -183,7 +183,35 @@
     margin-top: 4%;
 }
 
+
+/* Módulo autorizaciones*/
 .view-autorizaciones tr.even, tr.odd{
     background-color: #fff;
     font-size: 12px;
+}
+
+#edit-tipo-ide{
+    padding: 2px 0;
+}
+
+#edit-submit-autorizaciones{
+    margin-top: 0;
+    margin-left: 1em;
+    padding: 1px 0;
+}
+
+#edit-field-cedula-value-wrapper, #edit-field-nit-value-wrapper{
+    padding-right: 0;
+}
+
+#edit-tipo-ide-wrapper label{
+    margin-right: 0.5em;
+}
+
+.view-id-autorizaciones{
+    padding: 2em;
+}
+
+#alert-empty-autorizaciones{
+    margin-top: 1.5em;
 }

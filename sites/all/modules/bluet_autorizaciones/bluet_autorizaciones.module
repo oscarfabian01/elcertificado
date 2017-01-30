@@ -1,0 +1,69 @@
+<?php 
+
+function bluet_autorizaciones_form_views_exposed_form_alter(&$form, &$form_state){
+  if($form['#id'] == 'views-exposed-form-autorizaciones-page'){
+  	
+  	$form['tipo_ide'] = array(
+      '#type'    => 'select',
+      '#title'   => 'Buscar por',
+      '#options' => array(
+      	0 => 'Cédula',
+      	1 => 'NIT'),
+      /*'#states' => array(
+        'visible' =>array(
+          ':input[name="field_cedula_value"]' => array('value' => 0),
+          ':input[name="field_nit_value"]' => array('value' => 1),
+        ),
+      ),*/
+    );
+
+    $form['field_cedula_value']['#states'] = array(
+      'visible' => array(
+        ':input[name="tipo_ide"]' => array('value' => 0),
+      ),
+      'enabled' => array(
+        ':input[name="tipo_ide"]' => array('value' => 0),
+      ),
+    );
+
+    $form['field_nit_value']['#states'] = array(
+      'visible' => array(
+        ':input[name="tipo_ide"]' => array('value' => 1),
+      ),
+      'enabled' => array(
+        ':input[name="tipo_ide"]' => array('value' => 1),
+      ),
+    );
+
+    $form['#validate'][] = 'bluet_autorizaciones_exposed_form_validate';
+
+    // this value determines the position of the new element.
+    // Codigo para darle orden al campo, ya que la propiedad weight no esta funcionando para ordenar los campos
+    $insert_index = -2;
+    $element_to_insert = array();
+    $element_to_insert['filter-tipo_ide'] = array(
+      'value' => 'tipo_ide',
+    );
+    $form_info_top = array_slice($form['#info'], 0, $insert_index);
+    $form_info_bottom = array_slice($form['#info'], $insert_index);
+    $new_form_info = $form_info_top + $element_to_insert + $form_info_bottom;
+    $form['#info'] = $new_form_info;
+    
+  }
+}
+
+function bluet_autorizaciones_exposed_form_validate($form, &$form_state){
+  if(isset ($_GET['field_cedula_value']) || isset ($_GET['field_nit_value'])){
+    if ($form_state['values']['tipo_ide'] == 0) {
+  	  if ($form_state['values']['field_cedula_value'] == '') {
+        form_set_error('field_cedula_value', 'Obligatorio');
+      }
+    }
+
+    if ($form_state['values']['tipo_ide'] == 1) {
+  	  if ($form_state['values']['field_nit_value'] == '') {
+        form_set_error('field_nit_value', 'Obligatorio');
+      }
+    }
+  }
+}
