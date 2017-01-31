@@ -213,8 +213,19 @@
     padding: 2em;
 }
 
-#alert-empty-autorizaciones{
+.view-empty .alert-warning{
     margin-top: 1.5em;
+}
+
+
+/*Módulo certificaciones*/
+
+#edit-field-certificado-num-documento-value-wrapper .views-widget{
+    display: inline-block;
+}
+
+#edit-submit-certificados{
+    margin-top: 0;
 }
 
 .carousel-inner > .item > img,
@@ -271,9 +282,9 @@
 }
 
 /*estilo temporal para muestra al cliente*/
-.page-autorizaciones .contGeneralCont{
+/* .page-autorizaciones .contGeneralCont{
     padding: 2em 0;
     text-align: center;
-}
+}*/
 
 /* fin estilo temporal para muestra al cliente*/

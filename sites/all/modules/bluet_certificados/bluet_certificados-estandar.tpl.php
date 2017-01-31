@@ -30,7 +30,6 @@
       <p><?php echo $linea14; ?></p>
       <p><?php echo $linea15; ?></p>
       <p><?php echo $linea16; ?></p>
-      <p><?php echo $linea17; ?></p>
     </div>
     <div class="float-left ancho280 padding-izq8">
     	<img src="<?php echo $certificado_entrenador_url_firma ?>">	

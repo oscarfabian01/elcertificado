@@ -56,13 +56,13 @@ function bluet_autorizaciones_exposed_form_validate($form, &$form_state){
   if(isset ($_GET['field_cedula_value']) || isset ($_GET['field_nit_value'])){
     if ($form_state['values']['tipo_ide'] == 0) {
   	  if ($form_state['values']['field_cedula_value'] == '') {
-        form_set_error('field_cedula_value', 'Obligatorio');
+        form_set_error('field_cedula_value', 'El campo cedula es obligatorio');
       }
     }
 
     if ($form_state['values']['tipo_ide'] == 1) {
   	  if ($form_state['values']['field_nit_value'] == '') {
-        form_set_error('field_nit_value', 'Obligatorio');
+        form_set_error('field_nit_value', 'El campo NIT es obligatorio');
       }
     }
   }

@@ -82,6 +82,7 @@
  * @see template_process()
  * @see bartik_process_page()
  */
+global $base_url;
 ?>
 <div class="contenGeneral container-fluid">
     <div class="row">
@@ -146,6 +147,7 @@
         <div class="col-lg-1"></div>
         <div class="col-lg-10">
             <?php
+            print $messages;
             print render($page['content']);
             ?>
         </div>

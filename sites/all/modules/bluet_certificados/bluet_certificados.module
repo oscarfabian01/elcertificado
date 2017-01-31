@@ -60,7 +60,12 @@ function bluet_certificados_genera_certificado($formato,$certificado){
   //Carga la información del certificado. 
   $certificado_node = node_load($certificado);
   $certificado_obj = entity_metadata_wrapper('node', $certificado_node);
-  
+
+  //Si el tipo de contenido no es certificados corta el proceso.
+  if ($certificado_obj->type->value() != 'certificados'){
+    return "<div class='alert alert-danger'>Certificado no válido</div>";
+  }
+
   $certificado_num_documento = $certificado_obj->field_certificado_num_documento->value();
   $certificado_nombre = $certificado_obj->field_certificado_nombre->value();
   $certificado_horas = $certificado_obj->field_certificado_horas_intensid->value();
@@ -136,15 +141,11 @@ function bluet_certificados_genera_certificado($formato,$certificado){
   //Carga la información de la plantilla
   $plantilla_node = node_load($certificado_plantilla);
   $plantilla_obj = entity_metadata_wrapper('node', $plantilla_node);
-  //var_dump($plantilla_obj->field_plantillas_contenido->value());
-  //exit;
+
   //Se evalua que plantilla(template) se debe utilizar para cargar el certificado.
   variable_set('certificados_formato', 'bluet_certificados-' . $plantilla_obj->title->value());
 
-  //
   $array_plantilla = preg_split('/<br[^>]*>/i',$plantilla_obj->field_plantillas_contenido->value()['safe_value']);
-  //var_dump($plantilla_obj->field_plantillas_contenido->value()['safe_value']);
-  //exit;
   
   //Se setean las variables que seran enviadas al template
   $variables = array(
@@ -167,7 +168,7 @@ function bluet_certificados_genera_certificado($formato,$certificado){
     'certificado_url_logo_cliente' => $cliente_url_logo,
     'certificado_entrenador_url_firma' => $entrenador_url_firma   
   );
-  
+
   //Se evalua si se debe imprimir en PDF o HTML según lo recibido por parametro
   if ($formato == 'pdf'){
     return pdf_using_mpdf_api(theme('bluet_certificados_genera_certificado', $variables));
@@ -218,6 +219,24 @@ function bluet_certificados_form_alter(&$form, $form_state, $form_id){
     $form['field_certificado_plantilla']['und']['#options'] = $dropdown_array;
     if (isset($form_state['build_info']["args"]['0'] -> field_certificado_plantilla)){
       $form['field_certificado_plantilla']['und']['#default_value'] =  $form_state['build_info']["args"]['0'] -> field_certificado_plantilla['und'][0]['value'];
+    }
+  }
+}
+
+/*
+ * Implements hook form_views_exposed_form_alter
+ */
+
+function bluet_certificados_form_views_exposed_form_alter(&$form, $form_state){
+  if($form['#id'] = 'views-exposed-form-certificados-page'){
+    $form['#validate'][] = 'bluet_certificados_exposed_form_validate';
+  }
+}
+
+function bluet_certificados_exposed_form_validate($form, $form_state){
+  if(isset ($_GET['field_certificado_num_documento_value'])){
+    if ($form_state['values']['field_certificado_num_documento_value'] == '') {
+      form_set_error('field_certificado_num_documento_value','El campo documento es obligatorio');  
     }
   }
 }
